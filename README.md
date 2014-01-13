@@ -114,12 +114,12 @@ ok
 ### Add event handler of arduino
 
 ```erl-sh
-1> arduino_event:add_event_handler(sample_module, []).
+1> arduino_event:add_event_handler(sample_event_handler, []).
 ok
 ```
 
 * First argument is module name.
-* Second argument is arguments of sample_module:init/1.
+* Second argument is arguments of sample_event_handler:init/1.
 
-The sample_module is event handler befavior of gen_event.
-[gpio_pin_event_logger.erl](blob/master/src/arduino_event_logger.erl)
+The sample_event_handler is event handler befavior of gen_event.
+[sample_event_handler.erl](https://github.com/hiroeorz/arduino-erlang/blob/master/src/sample_event_handler.erl)
