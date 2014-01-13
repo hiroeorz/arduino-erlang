@@ -1,0 +1,42 @@
+%% -*- mode: erlang;erlang-indent-level: 4;indent-tabs-mode: nil -*-
+%% ex: ts=4 sw=4 ft=erlang et
+
+{application, arduino,
+ [
+  {description, "arduino handler for erlang application."},
+  {vsn, "0.1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { arduino_app, []}},
+  {env, [
+         %% example. 
+         {arduino, [{speed, 57600},
+                    {device, "/dev/ttyACM0"},
+                    {sampling_interval, 290},
+                    {digital_port_reporting, [1, 0]},
+                    {digital_port_offset, 1},
+                    {analog_offset, 0},
+                    {analog, [0, 1, 2, 3, 4, 5] },
+                    {digital, [
+                               { 0, in, [{pull, up} ]},
+                               { 1, in, [{pull, up} ]},
+                               { 2, in, [{pull, up} ]},
+                               { 3, in, [{pull, up} ]},
+                               { 4, in, [{pull, up} ]},
+                               { 5, in, [{pull, up} ]},
+                               { 6, in, [{pull, up} ]},
+                               { 7, in, [{pull, up} ]},
+                               { 8, out},
+                               { 9, out},
+                               {10, pwm},
+                               {11, pwm},
+                               {12, servo},
+                               {13, servo}
+                              ]
+                    }
+                   ]}
+  ]}
+ ]}.
