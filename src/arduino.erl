@@ -276,17 +276,17 @@ handle_info({data, Bin}, #state{recv_queue = RecvQueue} = State) ->
     if Size =:= unknown ->
 	    io:format("code(~p) not matched in getting size~n", [Code]),
 	    io:format("data = ~p~n", [Queue]),
-	    erlang:error(invalid_firmata_code);
-       true -> ok
-    end,
-
-    if byte_size(TailOfTotal) >= Size ->
-	    <<Code:8, Body:Size/binary, TailBin/binary>> = Queue,
-	    Reply = firmata:parse(Code, Body),
-	    NewState = handle_firmata(Reply, State1),
-	    handle_info({data, TailBin}, NewState#state{recv_queue = <<>>});
+	    {noreply, State#state{recv_queue = <<>>}};
        true ->
-	    {noreply, State#state{recv_queue = Queue}}
+	    if byte_size(TailOfTotal) >= Size ->
+		    <<Code:8, Body:Size/binary, TailBin/binary>> = Queue,
+		    Reply = firmata:parse(Code, Body),
+		    NewState = handle_firmata(Reply, State1),
+		    handle_info({data, TailBin}, 
+				NewState#state{recv_queue = <<>>});
+	       true ->
+		    {noreply, State#state{recv_queue = Queue}}
+	    end
     end;
 
 %%--------------------------------------------------------------------------
