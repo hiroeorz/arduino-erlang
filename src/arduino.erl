@@ -332,6 +332,7 @@ code_change(_OldVsn, State, _Extra) ->
 %%--------------------------------------------------------------------
 handle_firmata({sysex, {name_and_version_report, {_, _, SketchName}}}, State) ->
     io:format("Arduino sketch: ~s~n", [SketchName]),
+    init_pin(State),
     State;
 
 handle_firmata({version_report, {MeasureVer, MinorVer}}, State) ->
