@@ -17,7 +17,9 @@
          initialize/0,
          all_digital/0,
          all_analog/0,
-         digital_write/2]).
+         digital_write/2,
+	 analog_write/2,
+	 servo_config/3]).
 
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
@@ -145,6 +147,30 @@ initialize() ->
 digital_write(PortNo, Vals) when is_list(Vals), length(Vals) =:= 8 ->
     gen_server:cast(?SERVER, {digital_write, [PortNo, Vals]}).
 
+%%--------------------------------------------------------------------
+%% @doc write analog value. 
+%% @end
+%%--------------------------------------------------------------------
+-spec analog_write(PinNo, Val) -> ok when
+      PinNo :: non_neg_integer(),
+      Val :: non_neg_integer().
+analog_write(PinNo, Val) when is_integer(PinNo),
+			      0 =< Val andalso Val =< 1024 ->
+    gen_server:cast(?SERVER, {analog_write, PinNo, Val}).
+
+%%--------------------------------------------------------------------
+%% @doc write servo config. 
+%% @end
+%%--------------------------------------------------------------------
+-spec servo_config(PinNo, MinPulse, MaxPulse) -> ok when
+      PinNo :: non_neg_integer(),
+      MinPulse :: non_neg_integer(),
+      MaxPulse :: non_neg_integer().      
+servo_config(PinNo, MinPulse, MaxPulse) when is_integer(PinNo),
+					     is_integer(MinPulse),
+					     is_integer(MaxPulse) ->
+    gen_server:cast(?SERVER, {servo_config, PinNo, MinPulse, MaxPulse}).
+
 %%%===================================================================
 %%% gen_server callbacks
 %%%===================================================================
@@ -231,6 +257,17 @@ handle_cast(initialize, State) ->
 handle_cast({dirigal_write, PortNo, Vals}, State) ->
     SerialPid = State#state.serial_pid,
     digital_write(PortNo, Vals, SerialPid),
+    {noreply, State};
+
+handle_cast({analog_write, PinNo, Val}, State) ->
+    SerialPid = State#state.serial_pid,
+    analog_write(PinNo, Val, SerialPid),
+    {noreply, State};
+
+handle_cast({servo_config, PinNo, MinPulse, MaxPulse}, State) ->
+    SerialPid = State#state.serial_pid,
+    Command = firmata:format(sysex, servo_config, {PinNo, MinPulse, MaxPulse}),
+    send(Command, SerialPid),
     {noreply, State}.
 
 %%--------------------------------------------------------------------
@@ -548,6 +585,7 @@ set_digital_pin_mode(PinNo, Mode, SerialPid) ->
 		  servo  -> 4
 	      end,
 
+    io:format("set pin mode:~p(pino:~p)~n", [ModeInt, PinNo]),
     Command = firmata:format(set_pin_mode, {PinNo, ModeInt}),
     send(Command, SerialPid).
 
@@ -601,6 +639,20 @@ set_analog_port_reporting([PinNo | Tail], SerialPid) ->
 digital_write(PortNo, Vals, SerialPid) when is_list(Vals) andalso
 					    length(Vals) =:= 8 ->
     Command = firmata:format(digital_io_message, {PortNo, Vals}),
+    send(Command, SerialPid).
+
+%%--------------------------------------------------------------------
+%% @private
+%% @doc write write value(0 to 1024).
+%% @end
+%%--------------------------------------------------------------------
+-spec analog_write(PortNo, Val, SerialPid) -> ok when
+      PortNo :: non_neg_integer(),
+      Val :: non_neg_integer(),
+      SerialPid :: pid().
+analog_write(PinNo, Val, SerialPid) when is_integer(PinNo),
+					 0 =< Val andalso Val =< 1024 ->
+    Command = firmata:format(analog_io_message, {PinNo, Val}),
     send(Command, SerialPid).
 
 %%--------------------------------------------------------------------

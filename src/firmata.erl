@@ -30,6 +30,7 @@
 -define(SYSEX_EXTENDED_ANALOG,           16#6F).
 -define(SYSEX_NAME_AND_VERSION_CODE,     16#79).
 -define(SYSEX_SAMPLING_INTERVAL,         16#7A).
+-define(SYSEX_SERVO_CONFIG,              16#F0).
 
 %%%===================================================================
 %%% API
@@ -319,6 +320,28 @@ format(sysex, extended_analog, {PinNo, Val, ByteSize}) ->
 format(sysex, pin_state_query, {PinNo}) ->
     <<?SYSEX_START_CODE:8, 
       ?SYSEX_PIN_STATE_QUERY:8, PinNo:8/integer,
+      ?SYSEX_END_CODE:8>>;
+
+%--------------------------------------------------------------------
+% servo config query
+%--------------------------------------------------------------------
+%--------------------------------------------------------------------
+format(sysex, servo_config, {PinNo, MinPulse, MaxPulse}) ->
+    << 0:1,  0:1, X13:1, X12:1, X11:1, X10:1, X9:1, X8:1,
+      X7:1, X6:1,  X5:1,  X4:1,  X3:1,  X2:1, X1:1, X0:1>> = <<MinPulse:16/big-integer>>,
+
+    MinPulseBin = <<0:1,  X6:1,  X5:1,  X4:1,  X3:1, X2:1, X1:1, X0:1,
+		    0:1, X13:1, X12:1, X11:1, X10:1, X9:1, X8:1, X7:1>>,
+
+    << 0:1,  0:1, Y13:1, Y12:1, Y11:1, Y10:1, Y9:1, Y8:1,
+      Y7:1, Y6:1,  Y5:1,  Y4:1,  Y3:1,  Y2:1, Y1:1, Y0:1>> = <<MaxPulse:16/big-integer>>,
+
+    MaxPulseBin = <<0:1,  Y6:1,  Y5:1,  Y4:1,  Y3:1, Y2:1, Y1:1, Y0:1,
+		    0:1, Y13:1, Y12:1, Y11:1, Y10:1, Y9:1, Y8:1, Y7:1>>,
+
+    <<?SYSEX_START_CODE:8, 
+      ?SYSEX_SERVO_CONFIG:8, 
+      PinNo:8/integer, MinPulseBin:2/binary, MaxPulseBin:2/binary, 
       ?SYSEX_END_CODE:8>>.
 
 %%%===================================================================
