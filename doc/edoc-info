@@ -1,5 +1,4 @@
 %% encoding: UTF-8
 {application,edown}.
-{packages,[]}.
-{modules,[arduino,arduino_event,arduino_event_logger,arduino_event_relay,
-          arduino_sup,firmata]}.
+{modules,[arduino,arduino_app,arduino_event,arduino_sup,firmata,
+          sample_event_handler]}.

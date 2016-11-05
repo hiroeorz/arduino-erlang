@@ -14,7 +14,7 @@
   {env, [
          %% example. 
          {arduino, [{speed, 57600},
-                    {device, "/dev/ttyACM0"},
+                    {device, "/dev/tty.usbmodem1431"},
                     {sampling_interval, 290},
                     {digital_port_reporting, [1, 0]},
                     {digital_port_offset, 1},

@@ -5,13 +5,14 @@
 * [Function Index](#index)
 * [Function Details](#functions)
 
-
 .
+
 Copyright (c) (C) 2013, HIROE Shin
 
 __Behaviours:__ [`supervisor`](supervisor.md).
 
 __Authors:__ HIROE Shin ([`shin@HIROE-no-MacBook-Pro.local`](mailto:shin@HIROE-no-MacBook-Pro.local)).
+
 <a name="index"></a>
 
 ## Function Index ##
@@ -28,18 +29,15 @@ __Authors:__ HIROE Shin ([`shin@HIROE-no-MacBook-Pro.local`](mailto:shin@HIROE-n
 
 ### start_link/0 ###
 
-
 <pre><code>
 start_link() -&gt; {ok, Pid} | ignore | {error, Error}
 </code></pre>
 
 <ul class="definitions"><li><code>Pid = pid()</code></li><li><code>Error = term()</code></li></ul>
 
-
 <a name="start_link-2"></a>
 
 ### start_link/2 ###
-
 
 <pre><code>
 start_link(Config, EventHandlers) -&gt; {ok, Pid} | ignore | {error, Error}
@@ -47,10 +45,7 @@ start_link(Config, EventHandlers) -&gt; {ok, Pid} | ignore | {error, Error}
 
 <ul class="definitions"><li><code>Config = [tuple()]</code></li><li><code>EventHandlers = [atom()]</code></li><li><code>Pid = pid()</code></li><li><code>Error = term()</code></li></ul>
 
-
 Starts the supervisor
-
-
 
 Config example:
 {arduino, [{speed, 57600},
@@ -78,7 +73,6 @@ Config example:
 ]
 }
 ]}
-
 
 EventHandlers example:
 [ {my_handler, []}, {your_handler, [Arg1, Arg2]} ]

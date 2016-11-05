@@ -5,11 +5,12 @@
 * [Function Index](#index)
 * [Function Details](#functions)
 
-
 .
+
 Copyright (c) (C) 2013, HIROE Shin
 
 __Authors:__ HIROE Shin ([`shin@HIROE-no-MacBook-Pro.local`](mailto:shin@HIROE-no-MacBook-Pro.local)).
+
 <a name="index"></a>
 
 ## Function Index ##
@@ -26,7 +27,6 @@ __Authors:__ HIROE Shin ([`shin@HIROE-no-MacBook-Pro.local`](mailto:shin@HIROE-n
 
 ### add_handler/2 ###
 
-
 <pre><code>
 add_handler(Module, Args) -&gt; ok | {'EXIT', Reason} | term()
 </code></pre>
@@ -34,10 +34,10 @@ add_handler(Module, Args) -&gt; ok | {'EXIT', Reason} | term()
 <ul class="definitions"><li><code>Module = atom()</code></li><li><code>Args = [term()]</code></li><li><code>Reason = term()</code></li></ul>
 
 Add an event handler
+
 <a name="delete_handler-1"></a>
 
 ### delete_handler/1 ###
-
 
 <pre><code>
 delete_handler(Module) -&gt; ok | {'EXIT', Reason} | term()
@@ -46,10 +46,10 @@ delete_handler(Module) -&gt; ok | {'EXIT', Reason} | term()
 <ul class="definitions"><li><code>Module = atom()</code></li><li><code>Reason = term()</code></li></ul>
 
 Delete an event handler
+
 <a name="start_link-1"></a>
 
 ### start_link/1 ###
-
 
 <pre><code>
 start_link(Handlers) -&gt; {ok, Pid} | {error, Error}
@@ -58,3 +58,4 @@ start_link(Handlers) -&gt; {ok, Pid} | {error, Error}
 <ul class="definitions"><li><code>Handlers = [{atom(), list()}]</code></li><li><code>Pid = pid()</code></li><li><code>Error = term()</code></li></ul>
 
 Creates an event manager
+

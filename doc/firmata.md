@@ -5,11 +5,12 @@
 * [Function Index](#index)
 * [Function Details](#functions)
 
-
 .
+
 Copyright (c) (C) 2013, HIROE Shin
 
 __Authors:__ HIROE Shin ([`shin@HIROE-no-MacBook-Pro.local`](mailto:shin@HIROE-no-MacBook-Pro.local)).
+
 <a name="index"></a>
 
 ## Function Index ##
@@ -26,7 +27,6 @@ __Authors:__ HIROE Shin ([`shin@HIROE-no-MacBook-Pro.local`](mailto:shin@HIROE-n
 
 ### format/1 ###
 
-
 <pre><code>
 format(FormatName) -&gt; binary()
 </code></pre>
@@ -34,10 +34,10 @@ format(FormatName) -&gt; binary()
 <ul class="definitions"><li><code>FormatName = atom()</code></li></ul>
 
 create binary data that formatted by firmata protocol format.
+
 <a name="format-2"></a>
 
 ### format/2 ###
-
 
 <pre><code>
 format(FormatName, X2::tuple()) -&gt; binary()
@@ -46,12 +46,12 @@ format(FormatName, X2::tuple()) -&gt; binary()
 <ul class="definitions"><li><code>FormatName = atom()</code></li></ul>
 
 create binary data that formatted by firmata protocol format.
+
 <a name="format-3"></a>
 
 ### format/3 ###
 
 `format(X1, X2, Interval) -> any()`
-
 
 <a name="parse-2"></a>
 
@@ -59,16 +59,13 @@ create binary data that formatted by firmata protocol format.
 
 `parse(Code, Bin) -> any()`
 
-
 <a name="size-1"></a>
 
 ### size/1 ###
-
 
 <pre><code>
 size(Code) -&gt; non_neg_integer() | in_sysex | unknown
 </code></pre>
 
 <ul class="definitions"><li><code>Code = non_neg_integer()</code></li></ul>
-
 
